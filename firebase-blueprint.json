@@ -1,0 +1,61 @@
+{
+  "entities": {
+    "Route": {
+      "title": "Route",
+      "description": "A bus or van route for students",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "origin": { "type": "string" },
+        "destination": { "type": "string" },
+        "stops": {
+          "type": "array",
+          "description": "Ordered list of stops in the route"
+        }
+      },
+      "required": ["id", "name", "origin", "destination", "stops"]
+    },
+    "Update": {
+      "title": "Update",
+      "description": "A real-time status update (ping or breakdown)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "stopId": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "type": { "type": "string", "enum": ["ping", "breakdown"] },
+        "reporterId": { "type": "string" },
+        "reporterName": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "required": ["id", "stopId", "timestamp", "type", "reporterId"]
+    },
+    "User": {
+      "title": "User",
+      "description": "Student profile data",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "selectedRouteId": { "type": "string" }
+      },
+      "required": ["id", "displayName", "email"]
+    }
+  },
+  "firestore": {
+    "/routes": {
+      "schema": "Route",
+      "description": "Collection of all student commute routes"
+    },
+    "/routes/{routeId}/updates": {
+      "schema": "Update",
+      "description": "Real-time updates for a specific route"
+    },
+    "/users": {
+      "schema": "User",
+      "description": "Student profiles"
+    }
+  }
+}
